@@ -26,6 +26,11 @@ public class Solver {
 		this.board = new Board();
 	}
 	
+	public Solver(Side side, ArrayList<String> gameState) {
+		this(side);
+		this.board.setState(side, gameState);
+	}
+	
 	public static int evaluatePosition(Board board, Side side) {
 		Side winningSide = board.getWinner();
 		if (winningSide == null) {
@@ -87,7 +92,25 @@ public class Solver {
 		return null;
 	}
 	
+	public int getMove() {
+		PotentialMove pm = pickMove(this.board);
+		return pm.position;
+	}
+	
 	public static void main(String args[]) {
+		
+		String marks[] = new String[]{"X", "O", "X", null, "X", null, null, "O", "O"};
+		ArrayList<String> gameState = new ArrayList<String>();
+		for (String s : marks) {
+			gameState.add(s);
+		}
+		
+		Solver solver = new Solver(Side.CROSS, gameState);
+		solver.board.print();
+		solver.makeMove();
+		solver.board.print();
+		
+		/*
 		Solver solverX = new Solver(Side.CROSS);
 		Solver solverO = new Solver(Side.NOUGHT);
 		
@@ -108,7 +131,7 @@ public class Solver {
 			}
 			
 			
-		}
+		}*/
 		
 	}
 

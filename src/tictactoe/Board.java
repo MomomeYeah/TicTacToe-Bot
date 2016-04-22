@@ -77,7 +77,7 @@ public class Board {
 	}
 	
 	public Board() {
-		this(2);
+		this(3);
 	}
 	
 	public Board copy() {
@@ -94,6 +94,19 @@ public class Board {
 		board.evaluate();
 		
 		return board;
+	}
+	
+	public void setState(Side sideToPlay, ArrayList<String> gameState) {
+		for (int row = 0; row < this.boardSize; row++) {
+			for (int column = 0; column < this.boardSize; column++) {
+				String mark = gameState.get(row * this.boardSize + column);
+				if (mark != null) {
+					Side side = mark.equals("X") ? Side.CROSS : Side.NOUGHT;
+					this.cells[row][column].fill(side);
+				}
+			}
+		}
+		this.currentTurn = sideToPlay;
 	}
 	
 	public String toString() {
@@ -256,7 +269,16 @@ public class Board {
 		Board board = new Board();
 		board.print();
 		
-		board.makeMove(new Move(Side.CROSS, 0));
+		String marks[] = new String[]{"O", "X", "O", null, "O", null, null, "X", null};
+		ArrayList<String> gameState = new ArrayList<String>();
+		for (String s : marks) {
+			gameState.add(s);
+		}
+		
+		board.setState(Side.CROSS, gameState);
+		board.print();
+		
+		/*board.makeMove(new Move(Side.CROSS, 0));
 		board.print();
 		
 		board.makeMove(new Move(Side.NOUGHT, 7));
@@ -282,7 +304,7 @@ public class Board {
 		board.print();
 		
 		board.evaluate();
-		System.out.println(board.getWinner());
+		System.out.println(board.getWinner());*/
 		
 	}
 }
