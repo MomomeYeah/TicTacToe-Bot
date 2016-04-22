@@ -14,6 +14,7 @@ import org.apache.commons.io.IOUtils;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import com.thetransactioncompany.jsonrpc2.JSONRPC2Error;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2ParseException;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2Request;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2Response;
@@ -79,7 +80,8 @@ public class BotServer {
 			} else if (reqIn.getMethod().equals("TicTacToe.Error")) {
 				respOut = new JSONRPC2Response(handleTicTacToeError(reqIn), reqIn.getID());
 			} else {
-				respOut = new JSONRPC2Response("Not Recognised: " + reqIn.getMethod(), reqIn.getID());
+				respOut = new JSONRPC2Response("", reqIn.getID());
+				respOut.setError(new JSONRPC2Error(0, "Not Recognised: " + reqIn.getMethod()));
 			}
 			
 			return respOut.toString();

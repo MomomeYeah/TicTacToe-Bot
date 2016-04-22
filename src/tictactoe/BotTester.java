@@ -15,10 +15,8 @@ import org.apache.commons.io.IOUtils;
 public class BotTester {
 	
 	public static String JSONRPC2RequestString(String method, Map<String,Object> params, int id) {
-		// Create a new JSON-RPC 2.0 request
 		JSONRPC2Request reqOut = new JSONRPC2Request(method, params, id);
-
-		// Serialize the request to a JSON-encoded string
+		
 		return reqOut.toString();
 	}
 	
