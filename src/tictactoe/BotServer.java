@@ -103,21 +103,51 @@ public class BotServer {
 			os.close();
 			
 		}
+		
 	}
 	
+	String registrationURL;
 	HttpServer server;
 	
-	public BotServer() throws IOException {
+	public BotServer(String registrationURL) throws IOException {
+		this.registrationURL = registrationURL;
+		
 		this.server = HttpServer.create(new InetSocketAddress(8000), 0);
 		this.server.createContext("/bot", new BotHandler());
 		this.server.setExecutor(null);
 	}
 	
-	public static void main(String args[]) throws IOException {
-		BotServer bs = new BotServer();
+	public String getRegistrationString() {
+		String method = "RegistrationService.Register";
+		int id = 1;
 		
-		System.out.println("Starting server on port 8000");
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("botname", "ROBot");
+		params.put("botversion", "v0.1");
+		
+		return Utils.JSONRPC2RequestString(method, params, id);
+	}
+	
+	public String register() throws IOException {
+		String registrationString = getRegistrationString();
+		return Utils.getJSONRPCResponse(this.registrationURL, registrationString);
+	}
+	
+	public static void main(String args[]) throws IOException {
+		BotServer bs = new BotServer("https://www.google.com");
+		
+		System.out.println("Starting server on port 8000...");
 		bs.server.start();
+		
+		System.out.print("Registering bot on " + bs.registrationURL + "...");
+		try {
+			System.out.println(bs.register());
+		}
+		catch (IOException e) {
+			System.out.println("Unable to register bot!");
+			bs.server.stop(0);
+		}
+		
 	}
 
 }
