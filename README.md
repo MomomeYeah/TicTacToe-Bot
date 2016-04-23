@@ -1,5 +1,15 @@
 # TicTacToe-Bot
-A bot to play TicTacToe on Merknera
+A bot to play TicTacToe on [Merknera](https://github.com/mleonard87/merknera)
+
+To start, create a file named config.json at the root level of the project.  Copy the json below and populate it appropriately.
+
+~~~~
+{
+    "merknaraURL": <URL of Merkanara Server>,
+    "token": <Your Merknara Token>,
+    "endpointURL": <URL Your Bot is Listening On>
+}
+~~~~
 
 ## References
 This bot uses the following wonderful resources
