@@ -52,13 +52,13 @@ public class BotServer {
 		bs.server.start();
 		
 		System.out.println("Registering bot on " + bs.config.getConfigValue("merknaraURL") + "...");
-		/*try {
+		try {
 			System.out.println(bs.register());
 		}
 		catch (IOException e) {
 			System.out.println("Unable to register bot!");
 			bs.server.stop(0);
-		}*/
+		}
 		
 	}
 
