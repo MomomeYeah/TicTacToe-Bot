@@ -53,22 +53,21 @@ public class BotTester {
 	
 	public static String error() {
 		String method = "TicTacToe.Error";
-		int id = 1;
 		
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("gameid", 21);
 		params.put("message", "You played an invalid move, 'X' was already played here.");
 		params.put("errorcode", 1548);
 		
-		return Utils.JSONRPC2RequestString(method, params, id);
+		return Utils.JSONPC2NotificationString(method, params);
 	}
 	
 	public static void main(String args[]) throws IOException {
 		
 		String urlEndpoint = "http://4773e163.ngrok.io/bot";
 		//String requestString = BotTester.ping();
-		String requestString = BotTester.nextMove();
-		//String requestString = BotTester.complete();
+		//String requestString = BotTester.nextMove();
+		String requestString = BotTester.complete();
 		//String requestString = BotTester.error();
 
 		System.out.println(requestString);

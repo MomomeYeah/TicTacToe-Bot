@@ -5,19 +5,25 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 
+import com.thetransactioncompany.jsonrpc2.JSONRPC2Notification;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2Request;
 
 public class Utils {
 
 	public static String JSONRPC2RequestString(String method, Map<String,Object> params, int id) {
 		JSONRPC2Request reqOut = new JSONRPC2Request(method, params, id);
-		
 		return reqOut.toString();
+	}
+	
+	public static String JSONPC2NotificationString(String method, Map<String,Object> params) {
+		JSONRPC2Notification notOut = new JSONRPC2Notification(method, params);
+		return notOut.toString();
 	}
 	
 	public static String getJSONRPCResponse(String urlEndpoint, String requestString) throws IOException {
@@ -26,6 +32,7 @@ public class Utils {
 		
 		connection.setRequestMethod("POST");
 		connection.setDoOutput(true);
+		connection.setReadTimeout(3000);
 		connection.connect();
 		
 		OutputStream out = null;
@@ -48,7 +55,8 @@ public class Utils {
 			response.close();
 			
 			return requestBody;
-		    
+		} catch (SocketTimeoutException e) {
+			return "No response received after 3 seconds";
 		} finally {
 		    if (out != null) {
 		        out.close();
