@@ -21,7 +21,7 @@ public class Utils {
 		return reqOut.toString();
 	}
 	
-	public static String JSONPC2NotificationString(String method, Map<String,Object> params) {
+	public static String JSONRPC2NotificationString(String method, Map<String,Object> params) {
 		JSONRPC2Notification notOut = new JSONRPC2Notification(method, params);
 		return notOut.toString();
 	}

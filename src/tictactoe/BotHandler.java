@@ -14,8 +14,6 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 
 import com.thetransactioncompany.jsonrpc2.JSONRPC2Error;
-import com.thetransactioncompany.jsonrpc2.JSONRPC2Message;
-import com.thetransactioncompany.jsonrpc2.JSONRPC2Notification;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2ParseException;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2Request;
 import com.thetransactioncompany.jsonrpc2.JSONRPC2Response;
@@ -24,27 +22,6 @@ import net.minidev.json.JSONArray;
 
 @SuppressWarnings("restriction")
 public class BotHandler implements HttpHandler {
-	
-	private class Response {
-		private boolean respond;
-		private String responseString;
-		
-		public Response(boolean respond) {
-			this.respond = respond;
-		}
-		
-		public void setResponseString(String responseString) {
-			this.responseString = responseString;
-		}
-		
-		public boolean getRespond() {
-			return this.respond;
-		}
-		
-		public String getResponseString() {
-			return this.responseString;
-		}
-	}
 	
 	public Object handleStatusPing(JSONRPC2Request reqIn) {
 		Map<String,Object> params = new HashMap<String,Object>();
@@ -72,62 +49,43 @@ public class BotHandler implements HttpHandler {
 	}
 	
 	public Object handleTicTacToeComplete(JSONRPC2Request reqIn) {
-		return null;
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("status", "OK");
+		
+		return params;
 	}
 	
 	public Object handleTicTacToeError(JSONRPC2Request reqIn) {
-		return null;
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("status", "OK");
+		
+		return params;
 	}
 	
-	public Response parseRequest(String requestString) {
-		JSONRPC2Response respOut = null;
-		Response response = null;
-		
-		JSONRPC2Message msgIn = null;
+	public String parseRequest(String requestString) {
 		JSONRPC2Request reqIn = null;
-		JSONRPC2Notification notIn = null;
 		try {
-			msgIn = JSONRPC2Message.parse(requestString);
+			reqIn = JSONRPC2Request.parse(requestString);
 		} catch (JSONRPC2ParseException e) {
-			response = new Response(true);
-			response.setResponseString(e.getMessage());
+			return new JSONRPC2Error(0, e.getMessage()).toString();
 		}
 		
-		boolean isRequest = false;
-		String method = null;
-		if (msgIn instanceof JSONRPC2Notification) {
-			response = new Response(false);
-			notIn = (JSONRPC2Notification) msgIn;
-			method = notIn.getMethod();
-		} else if (msgIn instanceof JSONRPC2Request) {
-			response = new Response(true);
-			reqIn = (JSONRPC2Request) msgIn;
-			method = reqIn.getMethod();
-			isRequest = true;
-		}
-
+		JSONRPC2Response respOut = null;
+		
+		String method = reqIn.getMethod();
 		if (method.equals("Status.Ping")) {
 			respOut = new JSONRPC2Response(handleStatusPing(reqIn), reqIn.getID());
 		} else if (method.equals("TicTacToe.NextMove")) {
 			respOut = new JSONRPC2Response(handleTicTacToeNextMove(reqIn), reqIn.getID());
 		} else if (method.equals("TicTacToe.Complete")) {
-			if (isRequest) {
-				respOut = new JSONRPC2Response(handleTicTacToeComplete(reqIn), reqIn.getID());
-			}
+			respOut = new JSONRPC2Response(handleTicTacToeComplete(reqIn), reqIn.getID());
 		} else if (method.equals("TicTacToe.Error")) {
-			if (isRequest) {
-				respOut = new JSONRPC2Response(handleTicTacToeError(reqIn), reqIn.getID());
-			}
+			respOut = new JSONRPC2Response(handleTicTacToeError(reqIn), reqIn.getID());
 		} else {
-			respOut = new JSONRPC2Response("", reqIn.getID());
-			respOut.setError(new JSONRPC2Error(0, "Not Recognised: " + reqIn.getMethod()));
+			return new JSONRPC2Error(0, "Not Recognised: " + reqIn.getMethod()).toString();
 		}
 		
-		if (isRequest) {
-			response.setResponseString(respOut.toString());
-		}
-		
-		return response;	
+		return respOut.toString();
 	}
 	
 	public void handle(HttpExchange t) throws IOException {
@@ -139,17 +97,13 @@ public class BotHandler implements HttpHandler {
 		String requestBody = writer.toString();
 		
 		// get response
-		Response response = parseRequest(requestBody);
-		boolean respond = response.getRespond();
-		String responseString = response.getResponseString();
+		String responseString = parseRequest(requestBody);
 		
 		// respond if necessary
-		if (respond) {
-			t.sendResponseHeaders(200, responseString.length());
-			OutputStream os = t.getResponseBody();
-			os.write(responseString.getBytes());
-			os.close();
-		}
+		t.sendResponseHeaders(200, responseString.length());
+		OutputStream os = t.getResponseBody();
+		os.write(responseString.getBytes());
+		os.close();
 		
 	}
 	

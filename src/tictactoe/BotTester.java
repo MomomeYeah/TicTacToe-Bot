@@ -3,6 +3,8 @@ package tictactoe;
 import java.io.IOException;
 import java.util.*;
 
+import net.minidev.json.parser.ParseException;
+
 public class BotTester {
 	
 	public static String ping() {
@@ -53,18 +55,21 @@ public class BotTester {
 	
 	public static String error() {
 		String method = "TicTacToe.Error";
+		int id = 1;
 		
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("gameid", 21);
 		params.put("message", "You played an invalid move, 'X' was already played here.");
 		params.put("errorcode", 1548);
 		
-		return Utils.JSONPC2NotificationString(method, params);
+		return Utils.JSONRPC2RequestString(method, params, id);
 	}
 	
-	public static void main(String args[]) throws IOException {
+	public static void main(String args[]) throws IOException, ParseException {
 		
-		String urlEndpoint = "http://4773e163.ngrok.io/bot";
+		Config config = new Config();
+		String urlEndpoint = config.getConfigValue("endpointURL");
+		
 		//String requestString = BotTester.ping();
 		//String requestString = BotTester.nextMove();
 		String requestString = BotTester.complete();
