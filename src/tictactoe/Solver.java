@@ -7,14 +7,20 @@ public class Solver {
 	private static class PotentialMove {
 		private int position;
 		private int score;
+		private int depth;
 		
 		public PotentialMove(int position) {
 			this.position = position;
 			this.score = 0;
+			this.depth = 1;
 		}
 		
 		public void setScore(int score) {
 			this.score = score;
+		}
+		
+		public void setDepth(int depth) {
+			this.depth = depth;
 		}
 	}
 	
@@ -66,15 +72,24 @@ public class Solver {
 				PotentialMove pm = new PotentialMove(position);
 				int positionScore = Solver.evaluatePosition(boardCopy, currentTurn);
 				if (positionScore == 0) {
-					pm.setScore(-1 * pickMove(boardCopy).score);
+					PotentialMove pmRec = pickMove(boardCopy);
+					
+					pm.setScore(-1 * pmRec.score);
+					pm.setDepth(pmRec.depth + 1);
 				} else {
 					pm.setScore(positionScore);
 				}
 				pmList.add(pm);
 			}
+			
+			// value wins more highly when we get there quickly
+			// value losses more highly when we get there slowly
 			PotentialMove retPM = pmList.get(0);
 			for (PotentialMove pm : pmList) {
-				if (pm.score > retPM.score) {
+				float currentScore = (float) retPM.score / (float) retPM.depth;
+				float newScore = (float) pm.score / (float) pm.depth;
+				
+				if (newScore > currentScore) {
 					retPM = pm;
 				}
 			}
@@ -99,8 +114,7 @@ public class Solver {
 	
 	public static void main(String args[]) {
 		
-		//String marks[] = new String[]{"X", "O", "X", null, "X", null, null, "O", "O"};
-		String marks[] = new String[]{"X", null, null, "X", null, null, null, null, null};
+		/*String marks[] = new String[]{"O", null, null, "O", null, null, null, null, null};
 		ArrayList<String> gameState = new ArrayList<String>();
 		for (String s : marks) {
 			gameState.add(s);
@@ -109,9 +123,8 @@ public class Solver {
 		Solver solver = new Solver(Side.CROSS, gameState);
 		solver.board.print();
 		solver.makeMove();
-		solver.board.print();
+		solver.board.print();*/
 		
-		/*
 		Solver solverX = new Solver(Side.CROSS);
 		Solver solverO = new Solver(Side.NOUGHT);
 		
@@ -132,7 +145,7 @@ public class Solver {
 			}
 			
 			
-		}*/
+		}
 		
 	}
 
