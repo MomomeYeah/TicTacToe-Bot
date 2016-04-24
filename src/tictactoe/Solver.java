@@ -99,7 +99,8 @@ public class Solver {
 	
 	public static void main(String args[]) {
 		
-		String marks[] = new String[]{"X", "O", "X", null, "X", null, null, "O", "O"};
+		//String marks[] = new String[]{"X", "O", "X", null, "X", null, null, "O", "O"};
+		String marks[] = new String[]{"X", null, null, "X", null, null, null, null, null};
 		ArrayList<String> gameState = new ArrayList<String>();
 		for (String s : marks) {
 			gameState.add(s);
