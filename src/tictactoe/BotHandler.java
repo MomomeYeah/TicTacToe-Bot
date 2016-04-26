@@ -37,7 +37,9 @@ public class BotHandler implements HttpHandler {
 		JSONArray ja = (JSONArray) namedParams.get("gamestate");
 		ArrayList<String> gameState = new ArrayList<String>();
 		for (int i = 0; i < ja.size(); i++) {
-			gameState.add((String) ja.get(i));
+			String mark = (String) ja.get(i);
+			String finalMark = mark.equals("X") || mark.equals("O") ? mark : null;
+			gameState.add(finalMark);
 		}
 		
 		Solver solver = new Solver(side, gameState);
