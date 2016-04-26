@@ -12,19 +12,17 @@ import net.minidev.json.parser.ParseException;
 
 public class Config {
 	
-	HashMap<String,String> configItems;
+	HashMap<String,Object> configItems;
 	
 	public Config(String configFile) throws ParseException, FileNotFoundException {
-		this.configItems = new HashMap<String,String>();
+		this.configItems = new HashMap<String,Object>();
 		
 		JSONParser parser = new JSONParser(JSONParser.MODE_PERMISSIVE);
 		
 		JSONObject jo = (JSONObject) parser.parse(new FileReader(configFile));
 		Set<Entry<String,Object>> configSet = jo.entrySet();
 		for (Entry<String,Object> e : configSet) {
-			if (e.getValue() instanceof String) {
-				this.configItems.put(e.getKey(), (String) e.getValue());
-			}
+			this.configItems.put(e.getKey(), e.getValue());
 		}
 	}
 	
@@ -32,15 +30,23 @@ public class Config {
 		this("config.json");
 	}
 	
-	public String getConfigValue(String key) {
-		return this.configItems.get(key);
+	public String getString(String key) {
+		return (String) this.configItems.get(key);
+	}
+	
+	public Integer getInteger(String key) {
+		return (Integer) this.configItems.get(key);
 	}
 	
 	public static void main(String args[]) throws ParseException, FileNotFoundException {
 		//Config config = new Config("config.json");
 		Config config = new Config();
-		for (Entry<String,String> e : config.configItems.entrySet()) {
-			System.out.format("Key: %s, Value: %s\n", e.getKey(), e.getValue());
+		for (Entry<String,Object> e : config.configItems.entrySet()) {
+			if (e.getValue() instanceof String) {
+				System.out.format("Key: %s, Value(S): %s\n", e.getKey(), e.getValue());
+			} else if (e.getValue() instanceof Integer) {
+				System.out.format("Key: %s, Value(I): %d\n", e.getKey(), e.getValue());
+			}
 		}
 	}
 

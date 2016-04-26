@@ -68,7 +68,7 @@ public class BotTester {
 	public static void main(String args[]) throws IOException, ParseException {
 		
 		Config config = new Config();
-		String urlEndpoint = config.getConfigValue("endpointURL");
+		String urlEndpoint = config.getString("endpointURL");
 		
 		//String requestString = BotTester.ping();
 		//String requestString = BotTester.nextMove();
