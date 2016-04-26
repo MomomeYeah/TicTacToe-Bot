@@ -57,6 +57,7 @@ public class BotServer {
 		}
 		catch (IOException e) {
 			System.out.println("Unable to register bot!");
+			System.out.println(e.getMessage());
 			bs.server.stop(0);
 		}
 		
