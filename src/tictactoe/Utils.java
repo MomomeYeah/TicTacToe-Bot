@@ -32,7 +32,8 @@ public class Utils {
 		
 		connection.setRequestMethod("POST");
 		connection.setDoOutput(true);
-		connection.setReadTimeout(3000);
+		connection.setReadTimeout(10000);
+		connection.setRequestProperty("Content-Type", "application/json");
 		connection.connect();
 		
 		OutputStream out = null;
