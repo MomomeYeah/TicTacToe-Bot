@@ -5,9 +5,13 @@ To start, create a file named config.json at the root level of the project.  Cop
 
 ~~~~
 {
-    "merknaraURL": <URL of Merkanara Server>,
-    "token": <Your Merknara Token>,
-    "endpointURL": <URL Your Bot is Listening On>
+    "merknaraURL": <URL of Merkanara server>,
+    "token": <Your Merknara token>,
+    "hostPort": <Local port your Bot should listen on>,
+    "endpointURL": <URL your Bot is listening on>,
+    "botname": <Name of your Bot>,
+    "botversion": "Version number of your Bot",
+    "website": "<Your Bot's website>"
 }
 ~~~~
 

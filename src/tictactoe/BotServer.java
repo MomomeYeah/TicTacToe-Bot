@@ -30,12 +30,12 @@ public class BotServer {
 		
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("token", config.getString("token"));
-		params.put("botname", "ROBot");
-		params.put("botversion", "v0.1");
+		params.put("botname", config.getString("botname"));
+		params.put("botversion", config.getString("botversion"));
 		params.put("game", "TICTACTOE");
 		params.put("rpcendpoint", config.getString("endpointURL"));
 		params.put("programminglanguage", "Java");
-		params.put("website", "https://github.com/MomomeYeah/TicTacToe-Bot");
+		params.put("website", config.getString("website"));
 		
 		return Utils.JSONRPC2RequestString(method, params, id);
 	}
