@@ -42,7 +42,7 @@ public class BotServer {
 	
 	public String register() throws IOException {
 		String registrationString = getRegistrationString();
-		return Utils.getJSONRPCResponse(config.getString("merknaraURL"), registrationString);
+		return Utils.getJSONRPCResponse(config.getString("merkneraURL"), registrationString);
 	}
 	
 	public static void main(String args[]) throws IOException, ParseException {
@@ -51,7 +51,7 @@ public class BotServer {
 		System.out.println("Starting server on port " + bs.config.getInteger("hostPort") + "...");
 		bs.server.start();
 		
-		System.out.println("Registering bot on " + bs.config.getString("merknaraURL") + "...");
+		System.out.println("Registering bot on " + bs.config.getString("merkneraURL") + "...");
 		try {
 			System.out.println(bs.register());
 		}
