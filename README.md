@@ -15,6 +15,12 @@ To start, create a file named config.json at the root level of the project.  Cop
 }
 ~~~~
 
+## How to Build
+Install [Gradle](http://gradle.org/) and add the Gradle bin directory to your path.  Navigate to your local project directory and use the following commands:
+
+`gradle eclipse` to install all the necessary files to develop this project in Eclipse
+`gradle installDist` to download and install all dependencies, and run TicTacToe-Bot automatically
+
 ## HTTPS Certificates
 Depending on the CA used by your Merknera server, and the version of Java you are using, you may need to import your server's HTTPS certificate into your keystore.
 
