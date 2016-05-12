@@ -19,6 +19,7 @@ To start, create a file named config.json at the root level of the project.  Cop
 Install [Gradle](http://gradle.org/) and add the Gradle bin directory to your path.  Navigate to your local project directory and use the following commands:
 
 `gradle eclipse` to install all the necessary files to develop this project in Eclipse
+
 `gradle installDist` to download and install all dependencies, and run TicTacToe-Bot automatically
 
 ## HTTPS Certificates
