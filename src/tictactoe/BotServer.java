@@ -7,17 +7,19 @@ import java.util.Map;
 
 import com.sun.net.httpserver.HttpServer;
 
+import config.ConfigFactory;
+import config.IConfig;
 import net.minidev.json.parser.ParseException;
 
 @SuppressWarnings("restriction")
 // http://www.rgagnon.com/javadetails/java-have-a-simple-http-server.html
 public class BotServer {
 	
-	Config config;
+	IConfig config;
 	HttpServer server;
 	
 	public BotServer() throws IOException, ParseException {
-		this.config = new Config();
+		this.config = ConfigFactory.getConfig();
 		
 		this.server = HttpServer.create(new InetSocketAddress(this.config.getInteger("hostPort")), 0);
 		this.server.createContext("/bot", new BotHandler());

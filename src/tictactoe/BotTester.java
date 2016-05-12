@@ -3,6 +3,8 @@ package tictactoe;
 import java.io.IOException;
 import java.util.*;
 
+import config.ConfigFactory;
+import config.IConfig;
 import net.minidev.json.parser.ParseException;
 
 public class BotTester {
@@ -67,7 +69,7 @@ public class BotTester {
 	
 	public static void main(String args[]) throws IOException, ParseException {
 		
-		Config config = new Config();
+		IConfig config = ConfigFactory.getConfig();
 		String urlEndpoint = config.getString("endpointURL");
 		
 		//String requestString = BotTester.ping();

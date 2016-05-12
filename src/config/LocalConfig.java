@@ -1,4 +1,4 @@
-package tictactoe;
+package config;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,11 +10,11 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 
-public class Config {
+public class LocalConfig implements IConfig {
 	
 	HashMap<String,Object> configItems;
 	
-	public Config(String configFile) throws ParseException, FileNotFoundException {
+	public LocalConfig(String configFile) throws ParseException, FileNotFoundException {
 		this.configItems = new HashMap<String,Object>();
 		
 		JSONParser parser = new JSONParser(JSONParser.MODE_PERMISSIVE);
@@ -26,7 +26,7 @@ public class Config {
 		}
 	}
 	
-	public Config() throws FileNotFoundException, ParseException {
+	public LocalConfig() throws FileNotFoundException, ParseException {
 		this("config.json");
 	}
 	
@@ -39,8 +39,7 @@ public class Config {
 	}
 	
 	public static void main(String args[]) throws ParseException, FileNotFoundException {
-		//Config config = new Config("config.json");
-		Config config = new Config();
+		LocalConfig config = new LocalConfig();
 		for (Entry<String,Object> e : config.configItems.entrySet()) {
 			if (e.getValue() instanceof String) {
 				System.out.format("Key: %s, Value(S): %s\n", e.getKey(), e.getValue());
