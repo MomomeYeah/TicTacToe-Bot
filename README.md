@@ -7,11 +7,12 @@ To start, create a file named config.json at the root level of the project.  Cop
 {
     "merkneraURL": <URL of Merknera server>,
     "token": <Your Merknera token>,
-    "hostPort": <Local port your Bot should listen on>,
+    "PORT": <Local port your Bot should listen on>,
     "endpointURL": <URL your Bot is listening on>,
     "botname": <Name of your Bot>,
     "botversion": "Version number of your Bot",
     "website": "<Your Bot's website>"
+    "description": "<Short description for your Bot>"
 }
 ~~~~
 

@@ -38,6 +38,7 @@ public class BotServer {
 		params.put("rpcendpoint", config.getString("endpointURL"));
 		params.put("programminglanguage", "Java");
 		params.put("website", config.getString("website"));
+		params.put("description", config.getString("description"));
 		
 		return Utils.JSONRPC2RequestString(method, params, id);
 	}
