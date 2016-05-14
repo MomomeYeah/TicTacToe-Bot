@@ -21,6 +21,10 @@ jar {
       'Main-Class': 'tictactoe.BotServer'
     )
   }
+
+  from {
+    configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+  }
 }
 
 task copyToLib(type: Copy) {

@@ -1,1 +1,1 @@
-web: build/install/TicTacToe/bin/TicTacToe
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar app.jar
