@@ -21,7 +21,7 @@ public class BotServer {
 	public BotServer() throws IOException, ParseException {
 		this.config = ConfigFactory.getConfig();
 		
-		this.server = HttpServer.create(new InetSocketAddress(this.config.getInteger("hostPort")), 0);
+		this.server = HttpServer.create(new InetSocketAddress(this.config.getInteger("PORT")), 0);
 		this.server.createContext("/bot", new BotHandler());
 		this.server.setExecutor(null);
 	}
@@ -50,7 +50,7 @@ public class BotServer {
 	public static void main(String args[]) throws IOException, ParseException {
 		BotServer bs = new BotServer();
 		
-		System.out.println("Starting server on port " + bs.config.getInteger("hostPort") + "...");
+		System.out.println("Starting server on port " + bs.config.getInteger("PORT") + "...");
 		bs.server.start();
 		
 		System.out.println("Registering bot on " + bs.config.getString("merkneraURL") + "...");
