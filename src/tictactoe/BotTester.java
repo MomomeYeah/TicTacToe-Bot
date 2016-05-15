@@ -1,6 +1,8 @@
 package tictactoe;
 
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import config.ConfigFactory;
@@ -72,15 +74,22 @@ public class BotTester {
 		IConfig config = ConfigFactory.getConfig();
 		String urlEndpoint = config.getString("endpointURL");
 		
-		//String requestString = BotTester.ping();
+		String requestString = BotTester.ping();
 		//String requestString = BotTester.nextMove();
-		String requestString = BotTester.complete();
+		//String requestString = BotTester.complete();
 		//String requestString = BotTester.error();
 
 		System.out.println(requestString);
 		
+		long start = System.nanoTime();
 		String responseString = Utils.getJSONRPCResponse(urlEndpoint, requestString);
+		long finish = System.nanoTime();
 		
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.HALF_UP);
+		float seconds = (float) (finish - start) / (float) 1000000000;
+		
+		System.out.println("Got response in " + df.format(seconds) + " seconds");
 		System.out.println(responseString);
 		
 	}
