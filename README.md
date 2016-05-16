@@ -21,7 +21,7 @@ Install [Gradle](http://gradle.org/) and add the Gradle bin directory to your pa
 
 `gradle eclipse` to install all the necessary files to develop this project in Eclipse
 
-`gradle installDist` to download and install all dependencies, and run TicTacToe-Bot automatically
+`gradle stage` to download and install all dependencies, and build a runnable WAR file
 
 ## HTTPS Certificates
 Depending on the CA used by your Merknera server, and the version of Java you are using, you may need to import your server's HTTPS certificate into your keystore.
