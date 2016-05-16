@@ -1,15 +1,13 @@
 package tictactoe;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
 
@@ -20,17 +18,16 @@ import com.thetransactioncompany.jsonrpc2.JSONRPC2Response;
 
 import net.minidev.json.JSONArray;
 
-@SuppressWarnings("restriction")
-public class BotHandler implements HttpHandler {
+public class BotHandler {
 	
-	public Object handleStatusPing(JSONRPC2Request reqIn) {
+	public static Object handleStatusPing(JSONRPC2Request reqIn) {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("ping", "OK");
 		
 		return params;
 	}
 	
-	public Object handleTicTacToeNextMove(JSONRPC2Request reqIn) {
+	public static Object handleTicTacToeNextMove(JSONRPC2Request reqIn) {
 		Map<String,Object> namedParams = reqIn.getNamedParams();
 		Side side = ((String) namedParams.get("mark")).equals("X") ? Side.CROSS : Side.NOUGHT;
 		
@@ -50,21 +47,21 @@ public class BotHandler implements HttpHandler {
 		return params;
 	}
 	
-	public Object handleTicTacToeComplete(JSONRPC2Request reqIn) {
+	public static Object handleTicTacToeComplete(JSONRPC2Request reqIn) {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("status", "OK");
 		
 		return params;
 	}
 	
-	public Object handleTicTacToeError(JSONRPC2Request reqIn) {
+	public static Object handleTicTacToeError(JSONRPC2Request reqIn) {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("status", "OK");
 		
 		return params;
 	}
 	
-	public String parseRequest(String requestString) {
+	public static String parseRequest(String requestString) {
 		JSONRPC2Request reqIn = null;
 		try {
 			reqIn = JSONRPC2Request.parse(requestString);
@@ -90,22 +87,18 @@ public class BotHandler implements HttpHandler {
 		return respOut.toString();
 	}
 	
-	public void handle(HttpExchange t) throws IOException {
+	public static String handle(HttpServletRequest req) throws IOException {
 		
 		// get request body
-		InputStream requestBodyStream = t.getRequestBody();
+		InputStream requestBodyStream = req.getInputStream();
 		StringWriter writer = new StringWriter();
 		IOUtils.copy(requestBodyStream, writer);
 		String requestBody = writer.toString();
 		
 		// get response
 		String responseString = parseRequest(requestBody);
-		
-		// respond if necessary
-		t.sendResponseHeaders(200, responseString.length());
-		OutputStream os = t.getResponseBody();
-		os.write(responseString.getBytes());
-		os.close();
+
+		return responseString;
 		
 	}
 	

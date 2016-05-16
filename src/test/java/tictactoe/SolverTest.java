@@ -1,4 +1,4 @@
-package tests;
+package tictactoe;
 
 import static org.junit.Assert.*;
 
