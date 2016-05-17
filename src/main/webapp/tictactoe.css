@@ -18,10 +18,11 @@ body {
     margin-left: auto;
     margin-right: auto;
     width: 768px;
+    border-radius: 15px;
 }
 
 .main-section {
-    height: 120px;
+    height: 140px;
     padding: 2em;
 }
 
