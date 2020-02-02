@@ -1,7 +1,7 @@
 # TicTacToe-Bot
 A bot to play TicTacToe on [Merknera](https://github.com/mleonard87/merknera)
 
-To start, create a file named config.json at the root level of the project.  Copy the json below and populate it appropriately.
+To start, create a file named config.json at the root level of the project.  Copy the JSON below and populate it appropriately.
 
 ~~~~
 {
